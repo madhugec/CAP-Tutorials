@@ -19,6 +19,10 @@ File or Folder | Purpose
 - (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
 - Start adding content, for example, a [db/schema.cds](db/schema.cds).
 
+## Explaination:
+CAP by defualt provides basic CRUD operation but to add logic for validation, determination, call to other api etc. we need handler which can be written in javascript and typescript. Here we are following javascript approach.
+
+To use outofbox feature of CAP you defind a js file with same name as your service cds file but if you want to use different name then you will have define @impl annotation on service cds file.
 
 ## Learn More
 
