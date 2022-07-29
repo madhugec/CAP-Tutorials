@@ -1,33 +1,28 @@
-////=======================Function Approach =======================
-
-// module.exports = srv=>{
-    
-    
-    //     srv.before('CREATE', 'Product', req=>{
-        //         console.log("doing something.")
-        //     })
+const ProductValidator = require("../validator/product-validator");
+module.exports = class ProductService extends cds.ApplicationService{
+    init(){
         
-        //     srv.on('READ', 'Product', req=>{
-            //         console.log('I am inside of on phase.')
-            //     })
-            //     srv.after('READ', 'Product', (response,req)=>{
-                //         console.log('I am inside of after phase.')
-                //     })
-                // }
-                
-////=======================Class Approach=======================
-module.exports = class ProductService extends cds.ApplicationService {
-    init() {
         this.before('READ', 'Product', req=>{
-            console.log("annonymouse function approach")
-        })   
-        this.before('READ', 'Product', handler)     
-        this.after('READ', 'Product', handler)
-        
-        super.init();       
-    }
-}
+            if(!ProductValidator.validateProduct(req.data)){
+                req.reject(400, 'mrp is greater than 1000' );
+            }
+        })
+        this.on('CREATE', "Product", async(req, next)=>{
+          const products =   await SELECT.from(Product);
+         let  flag = false;
+         let result ;
+          products.forEach(product => {
+            if(product.name ===req.data.name){
+                result =  product;
+                flag = true;                
+            }
+          });
+          if(!flag)
+         return  next();
+         else return result;
+        })
 
-const handler =function(req){
-    console.log("doing something.");
+
+        super.init();
+    }
 }

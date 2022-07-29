@@ -8,7 +8,7 @@ using {
 
 entity Product : cuid, managed
 {
-    name : UUID not null;
+    name : String not null;
     description : String(100);
     mrp : Double;
     quantity : Integer not null;
