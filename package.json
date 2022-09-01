@@ -11,10 +11,12 @@
     "hdb": "^0.19.0"
   },
   "devDependencies": {
+    "@sap/ux-specification": "^1.102.4",
     "sqlite3": "^5.0.4"
   },
   "scripts": {
-    "start": "cds run"
+    "start": "cds run",
+    "watch-saleorder": "cds watch --open saleorder/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -49,11 +51,17 @@
           "database": "db/my.db"
         }
       },
-      "[hanadb]": {
+      "[production]": {
         "db": {
           "kind": "hana-cloud"
         }
       }
+    },
+    "hana": {
+      "deploy-format": "hdbtable"
     }
-  }
+  },
+  "sapux": [
+    "app/saleorder"
+  ]
 }

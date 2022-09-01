@@ -24,3 +24,13 @@ File or Folder | Purpose
 ## Learn More
 
 Learn more at https://cap.cloud.sap/docs/get-started/.
+
+
+Note: 
+
+In this section we learn about deploying in hana.
+For deploying in hana run cds add hana command. it will add hana configuraiton under cds on package.json.
+
+after that create sap hana db instance in BTP and then create hdi-shared plan hana service instance. 
+
+now run : cds deploy --to hana:poc-db  --store-credentials
