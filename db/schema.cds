@@ -6,7 +6,7 @@ using
     managed
 }
 from '@sap/cds/common';
-
+@cds.odata.valuelist
 entity Product : cuid, managed
 {
     name : String not null;

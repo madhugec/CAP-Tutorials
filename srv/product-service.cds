@@ -3,10 +3,10 @@ using { poc.db as db } from '../db/schema';
 @impl : './api/product-service.js'
 @path : 'productservice'
 service ProductService
-{
-    entity Product as
-        projection on db.Product;
-    entity Order as projection on db.Order;
+{  
+    @odata.draft.enabled
+    entity Product as projection on db.Product actions{
+        action updateMrp (mrp:Integer) returns Product;
+    }
 
-    entity Item as projection on db.Item;
-}
+  }
