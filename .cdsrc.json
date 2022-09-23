@@ -1,1 +1,23 @@
-{}
+{
+    "[development]":{
+        "auth":{
+            "passport":{
+                "users": {
+                    "Madhusudan": { 
+                      "password": "pwd", 
+                      "roles": [ "CUSTOMER"  ]
+                    },
+                    "Harshith": { 
+                      "password": "pwd", 
+                      "roles": [ "ADMIN"  ]
+                    },
+                    "Ashu": { 
+                      "password": "pwd", 
+                      "roles": [ "VIEWER"  ]
+                    }
+                  }
+            }
+        }
+    }
+}
+

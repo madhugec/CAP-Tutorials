@@ -33,3 +33,8 @@ https://cap.cloud.sap/docs/node.js/cds-ql#UPDATE
 
 
 now run : cds deploy --to hana:poc-db  --store-credentials
+cds add hana, xsuaa, approuter, mta --for production
+npm install --g mbt
+mbt build -t gen --mtar mta.tar
+cf deploy gen/mta.tar
+https://sap.github.io/cloud-mta-build-tool/download/
