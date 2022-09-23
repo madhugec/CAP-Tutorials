@@ -5,7 +5,8 @@ using { poc.db as db } from '../db/schema';
 service ProductService
 {  
     @odata.draft.enabled
-    entity Product as projection on db.Product actions{
+    entity Product @(restrict:[{grant:'READ', to:'VIEWER' },{grant:'*', to:'ADMIN' },
+    { grant: ['READ', 'CREATE'], to:'CUSTOMER', where: 'createdBy = $user' } ]) as projection on db.Product actions{
         action updateMrp (mrp:Integer) returns Product;
     }
 
