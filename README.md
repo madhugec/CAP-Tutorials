@@ -31,5 +31,11 @@ Add Actions:
 https://cap.cloud.sap/docs/advanced/fiori
 https://cap.cloud.sap/docs/node.js/cds-ql#UPDATE
 
+MBT plugin installation : https://sap.github.io/cloud-mta-build-tool/download/
+MTA Plugin installation: https://developers.sap.com/tutorials/cp-cf-install-cliplugin-mta.html
 
 now run : cds deploy --to hana:poc-db  --store-credentials
+cds add hana, xsuaa, approuter, mta --for production
+npm install --g mbt
+mbt build -t gen --mtar mta.tar
+cf deploy gen/mta.tar
