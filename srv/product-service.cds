@@ -6,7 +6,9 @@ service ProductService
 {  
     @odata.draft.enabled
     entity Product @(restrict:[{grant:'READ', to:'VIEWER' },{grant:'*', to:'ADMIN' },
-    { grant: ['READ', 'CREATE'], to:'CUSTOMER', where: 'createdBy = $user' } ]) as projection on db.Product actions{
+    { grant: ['READ', 'CREATE'], to:'CUSTOMER', where: 'createdBy = $user' } ]) as projection on db.Product 
+    
+    actions{
         action updateMrp (mrp:Integer) returns Product;
     }
 

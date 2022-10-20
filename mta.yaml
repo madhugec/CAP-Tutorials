@@ -64,5 +64,7 @@ resources:
   - name: poc-db
     type: com.sap.xs.hdi-container
     parameters:
+      config: 
+        database_id: 49570a63-bab8-43bb-9519-9911027e75b3
       service: hana
       service-plan: hdi-shared

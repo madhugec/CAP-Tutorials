@@ -39,3 +39,4 @@ cds add hana, xsuaa, approuter, mta --for production
 npm install --g mbt
 mbt build -t gen --mtar mta.tar
 cf deploy gen/mta.tar
+hana credential: DBADMIN/HanaTest@1
