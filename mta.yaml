@@ -9,6 +9,7 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
+        - npm i
         - npx -p @sap/cds-dk cds build --production
 
 modules:
@@ -23,9 +24,16 @@ modules:
       - name: srv-api # required by consumers of CAP services (e.g. approuter)
         properties:
           srv-url: ${default-url}
+      - name: mtx-api # potentially required by approuter
+        properties:
+          mtx-url: ${default-url}
     requires:
       - name: poc-auth
       - name: poc-db
+      - name: poc-registry
+      - name: app-api
+        properties:
+          SUBSCRIPTION_URL: ~{app-protocol}://\${tenant_subdomain}-~{app-uri}
 
   - name: poc
     type: approuter.nodejs
@@ -42,14 +50,18 @@ modules:
           url: ~{srv-url}
           forwardAuthToken: true
       - name: poc-auth
-
-  - name: poc-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-    requires:
-      - name: poc-db
+      - name: mtx-api
+        group: destinations
+        properties:
+          name: mtx-api # must be used in xs-app.json as well
+          url: ~{mtx-url}
+    properties:
+      TENANT_HOST_PATTERN: "^(.*)-${default-uri}"
+    provides:
+      - name: app-api
+        properties:
+          app-protocol: ${protocol}
+          app-uri: ${default-uri}
 
 resources:
   - name: poc-auth
@@ -60,11 +72,28 @@ resources:
       path: ./xs-security.json
       config:
         xsappname: poc-${org}-${space}
-        tenant-mode: dedicated
+        tenant-mode: shared
   - name: poc-db
-    type: com.sap.xs.hdi-container
+    type: org.cloudfoundry.managed-service
     parameters:
-      config: 
-        database_id: 49570a63-bab8-43bb-9519-9911027e75b3
-      service: hana
-      service-plan: hdi-shared
+      service: service-manager
+      service-plan: container
+  - name: poc-registry
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: mtx-api
+    parameters:
+      service: saas-registry
+      service-plan: application
+      config:
+        xsappname: poc-${org}-${space}
+        appName: poc-${org}-${space}
+        displayName: poc
+        description: A simple CAP project.
+        category: 'Category'
+        appUrls:
+          getDependencies: ~{mtx-api/mtx-url}/mtx/v1/provisioning/dependencies
+          onSubscription: ~{mtx-api/mtx-url}/mtx/v1/provisioning/tenant/{tenantId}
+          onSubscriptionAsync: false
+          onUnSubscriptionAsync: false
+          callbackTimeoutMillis: 300000
